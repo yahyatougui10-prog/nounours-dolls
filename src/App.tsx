@@ -468,7 +468,11 @@ export default function App() {
         {usingFallback && (
           <div
             role="status"
-            className="bg-red px-5 py-2.5 text-center text-xs font-medium text-white"
+            className={
+              isStaticSite
+                ? 'border-b border-marron/10 bg-cream px-5 py-2 text-center text-[11px] font-medium leading-snug text-marron/75 sm:text-xs'
+                : 'bg-red px-5 py-2.5 text-center text-xs font-medium text-white'
+            }
           >
             {isStaticSite
               ? staticCatalogNotice

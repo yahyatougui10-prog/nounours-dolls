@@ -2,4 +2,4 @@
 export const isStaticSite = import.meta.env.VITE_STATIC_SITE === 'true'
 
 export const staticCatalogNotice =
-  'Static GitHub Pages preview — showing our full collection locally. Messages and admin need the Node server.'
+  'Static preview · Browse all 120 friends here. Messages and admin tools are available in the full boutique app.'
