@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "buildCommand": "VITE_STATIC_SITE=true npm run build",
+  "outputDirectory": "dist"
+}
