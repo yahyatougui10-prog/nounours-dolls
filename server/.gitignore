@@ -1,0 +1,4 @@
+# Runtime state and credentials — never commit these.
+data/store.json
+data/admin.json
+uploads/

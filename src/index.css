@@ -1,0 +1,401 @@
+@import "tailwindcss";
+@config "../tailwind.config.cjs";
+
+/* ============================================================
+   NOOSH & FRIENDS — V6 EDITORIAL BOUTIQUE DESIGN SYSTEM
+   ------------------------------------------------------------
+   One palette, one type scale, one elevation language. Every
+   component reads from these tokens so the boutique feels like a
+   single, considered place rather than a set of styled pages.
+   ============================================================ */
+:root {
+  /* Official brand colors — never changed */
+  --color-red: #C62828;
+  --color-cyan: #22C7D6;
+  --color-marron: #795548;
+
+  /* Brand-derived shades: quieter siblings for hierarchy and state */
+  --color-red-deep: #A82020;
+  --color-red-tint: #F8E8E6;
+  --color-cyan-deep: #0D7480;
+  --color-cyan-tint: #E2F4F6;
+  --color-marron-deep: #5B3E33;
+  --color-marron-soft: #806454;
+  --color-marron-tint: #F1E8E2;
+
+  /* Supporting neutral shades */
+  --color-ivory: #FBF7F2;
+  --color-paper: #F7F0E7;
+  --color-cream: #FFFDF9;
+  --color-sand: #EFE6DD;
+  --color-blush: #F6E4E0;
+  --color-sky: #E4F5F7;
+  --color-butter: #F7EEDC;
+  --color-cocoa: #5E4238;
+  --color-ink: #3D2F2F;
+  --color-muted: #7A675E;
+  --color-line: rgba(121, 85, 72, 0.14);
+  --color-line-strong: rgba(121, 85, 72, 0.24);
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Layout system — shared by every section and persistent element */
+  --page-width: 80rem;          /* max-w-7xl */
+  --container-gutter: 1.25rem;  /* 20px, mobile */
+  --header-height: 5rem;        /* 80px, matches h-20 */
+  --section-y: 5rem;            /* 80px, mobile */
+  --card-gap: 1.25rem;          /* 20px */
+  --radius-card: 2rem;          /* 32px, matches rounded-4xl */
+
+  /* Z-index scale: base < rail < sticky < header < drawer < modal < toast < cursor */
+  --z-rail: 30;
+  --z-sticky: 35;
+  --z-header: 50;
+  --z-drawer: 70;
+  --z-modal: 90;
+  --z-toast: 100;
+  --z-cursor: 120;
+
+  /* Background variations */
+  --bg-warm: linear-gradient(145deg, #FFFDF9 0%, #FBF7F2 55%, #F7F0E7 100%);
+  --bg-sky: radial-gradient(circle at 15% 20%, rgba(34, 199, 214, 0.14), transparent 45%), #FBF7F2;
+  --bg-blush: radial-gradient(circle at 85% 25%, rgba(198, 40, 40, 0.09), transparent 42%), #FFFDF9;
+  --bg-cocoa: linear-gradient(150deg, #795548 0%, #5E4238 100%);
+  --bg-editorial: radial-gradient(circle at 12% 18%, rgba(34, 199, 214, 0.10), transparent 40%), radial-gradient(circle at 88% 82%, rgba(198, 40, 40, 0.07), transparent 38%), #FFFDF9;
+
+  /* Typography — a deliberate editorial scale. clamp() keeps headings
+     expressive on large screens and composed on small ones. */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --type-hero: clamp(2.75rem, 4.7vw, 4.9rem);
+  --type-section: clamp(2.25rem, 6.2vw, 3.6rem);
+  --type-subhead: clamp(1.85rem, 2.5vw, 2.6rem);
+  --type-card: clamp(1.1rem, 1.35vw, 1.35rem);
+  --tracking-label: 0.24em;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Radii & layered elevation — hairline contact shadow plus a soft cast,
+     which reads as depth without the heavy "floating card" look. */
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 1.75rem;
+  --radius-xl: 2.25rem;
+  --shadow-soft:
+    0 1px 2px rgba(91, 62, 51, 0.05),
+    0 14px 34px -24px rgba(91, 62, 51, 0.32);
+  --shadow-lift:
+    0 1px 2px rgba(91, 62, 51, 0.06),
+    0 30px 64px -32px rgba(91, 62, 51, 0.38);
+  --shadow-campaign:
+    0 2px 4px rgba(91, 62, 51, 0.05),
+    0 44px 96px -48px rgba(91, 62, 51, 0.48);
+  --shadow-glow:
+    0 0 0 1px rgba(34, 199, 214, 0.28),
+    0 18px 44px -30px rgba(34, 199, 214, 0.5);
+  --shadow-modal: 0 48px 120px -44px rgba(45, 30, 24, 0.55);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* The fixed header is 80px; leave a small breathing gap for anchors. */
+    scroll-padding-top: calc(var(--header-height) + 0.5rem);
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.032em;
+    color: var(--color-marron);
+    /* Fraunces variable axes: a little softness, a little character. */
+    font-variation-settings: "SOFT" 24, "WONK" 1;
+  }
+
+  p {
+    line-height: 1.72;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  ::selection {
+    background: var(--color-cyan);
+    color: var(--color-marron);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cyan-deep);
+    outline-offset: 3px;
+  }
+
+  input, select, textarea {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* One container, one gutter, one section rhythm. Every section uses these
+     so headings and cards never step sideways between adjacent sections. */
+  .page-container {
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--page-width);
+    padding-inline: var(--container-gutter);
+  }
+
+  @media (min-width: 640px) {
+    .page-container { padding-inline: 2rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .page-container { padding-inline: 3rem; }
+  }
+
+  .section-y { padding-block: var(--section-y); }
+  .section-y-sm { padding-block: 1.25rem; }
+
+  @media (min-width: 640px) {
+    .section-y { padding-block: 7rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .section-y { padding-block: 8rem; }
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: var(--card-gap);
+  }
+
+  @media (min-width: 640px) {
+    .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  @media (min-width: 1280px) {
+    .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  /* Textured editorial paper — distinct from the flat `paper` theme colour. */
+  .bg-paper-texture {
+    background-color: var(--color-cream);
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(34, 199, 214, 0.07), transparent 42%),
+      radial-gradient(circle at 88% 82%, rgba(198, 40, 40, 0.05), transparent 38%);
+  }
+
+  .bg-warm { background: var(--bg-warm); }
+  .bg-sky-soft { background: var(--bg-sky); }
+  .bg-blush-soft { background: var(--bg-blush); }
+  .bg-cocoa { background: var(--bg-cocoa); }
+  .bg-editorial { background: var(--bg-editorial); }
+
+  /* Hero ground: warm ivory with one quiet cyan wash behind the copy. */
+  .bg-hero {
+    background-color: var(--color-ivory);
+    background-image: linear-gradient(
+      100deg,
+      rgba(34, 199, 214, 0.075) 0%,
+      rgba(251, 247, 242, 0) 48%
+    );
+  }
+
+  /* Shared editorial primitives. These keep labels, rules and surfaces
+     identical from the hero all the way down to the footer. */
+  .label-micro {
+    font-size: 0.625rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .display-italic {
+    font-style: italic;
+    color: var(--color-red);
+    font-variation-settings: "SOFT" 40, "WONK" 1;
+  }
+
+  .hairline {
+    height: 1px;
+    background: var(--color-line);
+  }
+
+  .surface-card {
+    border: 1px solid var(--color-line);
+    background: var(--color-cream);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .glass-panel {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 253, 249, 0.82);
+    box-shadow: var(--shadow-lift);
+    backdrop-filter: blur(18px);
+  }
+
+  .bg-grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
+  }
+
+  .frame-image {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-sand);
+  }
+
+  .frame-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(121, 85, 72, 0.08);
+    pointer-events: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .arch-image {
+    border-radius: 48% 48% 2.25rem 2.25rem / 38% 38% 2.25rem 2.25rem;
+  }
+
+  .arch-image-top {
+    border-radius: 2.25rem 2.25rem 48% 48% / 2.25rem 2.25rem 38% 38%;
+  }
+
+  .editorial-card {
+    border-radius: 2rem 5.5rem 2rem 2rem;
+  }
+
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(121, 85, 72, 0.12);
+  }
+
+  .image-tint {
+    background: linear-gradient(180deg, rgba(121, 85, 72, 0.02), rgba(121, 85, 72, 0.16));
+  }
+
+  .heart-pop {
+    animation: heart-pop 0.45s var(--ease-editorial);
+  }
+
+  .hover-reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.3s var(--ease-editorial),
+      transform 0.3s var(--ease-editorial);
+  }
+
+  @media (hover: hover) {
+    .group:hover .hover-reveal,
+    .group:focus-within .hover-reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Touch devices have no hover: keep every control visible. */
+  @media (hover: none) {
+    .hover-reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+}
+
+/* ============================================================
+   MOTION & LOADING STATES
+   ============================================================ */
+@keyframes float-soft {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -14px, 0); }
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+@keyframes heart-pop {
+  0% { transform: scale(0.75); }
+  55% { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+
+.animate-float-soft {
+  animation: float-soft 7s ease-in-out infinite;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(121, 85, 72, 0.08);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+  animation: shimmer 1.6s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
